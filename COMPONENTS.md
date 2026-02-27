@@ -1,1 +1,1 @@
-Ardiuno bottle counter < - > Server with PHP + database < - > App/webiste 
+Arduino bottle counter < - > Server with PHP + database < - > App/website
