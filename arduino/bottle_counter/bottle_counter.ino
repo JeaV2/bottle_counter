@@ -33,6 +33,12 @@ void loop() {
   distance= timetofly*0.034/2;
  
   // Prints the distance on the Serial Monitor in CM
-  Serial.print("Distance:");
-  Serial.println(distance);
+
+
+	if (distance < 10) {
+		Serial.println("Bottle detected!");
+	} else {
+		Serial.println("No bottle detected.");
+	}
+	delay(100);
 }
