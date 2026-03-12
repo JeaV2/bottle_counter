@@ -1,0 +1,78 @@
+.app-shell {
+    width: min(960px, calc(100vw - 2rem));
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+.app-header {
+    margin-bottom: 2rem;
+}
+
+.eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--accent);
+}
+
+.intro {
+    max-width: 64ch;
+}
+
+.terminal-panel {
+    display: block;
+    width: 100%;
+}
+
+.terminal-output {
+    min-height: 18rem;
+    max-height: 26rem;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+    background: color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+.terminal-output p {
+    margin: 0 0 0.65rem;
+}
+
+.terminal-output p:last-child {
+    margin-bottom: 0;
+}
+
+.terminal-form {
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 1rem;
+}
+
+.terminal-entry {
+    display: grid;
+    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.prompt {
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.terminal-entry input {
+    width: 100%;
+    margin-top: 0;
+}
+
+.command-reference {
+    margin-top: 2rem;
+}
+
+@media (max-width: 640px) {
+    .app-shell {
+        width: min(100vw - 1rem, 960px);
+        padding-top: 1rem;
+    }
+
+    .terminal-entry {
+        grid-template-columns: 1fr;
+    }
+}
