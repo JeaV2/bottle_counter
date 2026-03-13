@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,6 @@
     <link rel="stylesheet" href="./bottle_counter.css">
     <script defer src="./bottle_counter.js"></script>
 </head>
-<body>
     <main class="app-shell">
         <header class="app-header">
             <h1>Bottle Counter</h1>
@@ -29,13 +29,8 @@
                     <label for="terminalInput">Enter command</label>
                     <div class="terminal-entry">
                         <span class="prompt" aria-hidden="true">user@bottle-counter:~$</span>
-                        <input
-                            id="terminalInput"
-                            name="command"
-                            type="text"
-                            placeholder="help"
-                            aria-label="Terminal command input"
-                        >
+                        <input id="terminalInput" name="command" type="text" placeholder="help"
+                            aria-label="Terminal command input">
                     </div>
                     <button>Run command</button>
                 </form>
@@ -51,9 +46,12 @@
                 <li><code>leaderboard</code> Show bottle deposit rankings.</li>
                 <li><code>count</code> Shows the total amount of bottles deposited by all users.</li>
                 <li><code>stats</code> Show personal bottle totals, streak, and rank.</li>
-                <li><code>predict</code> Allows users to predict how many bottles will be deposited the following day.</li>
-                <li><code>associate</code> Associates the user with the next deposit, so they can get credit for it.</li>
-                <li><code>disassociate</code> Disassociates the user from the next deposit, in case they accidentally pressed the associate button or changed their mind.</li>
+                <li><code>predict</code> Allows users to predict how many bottles will be deposited the following day.
+                </li>
+                <li><code>associate</code> Associates the user with the next deposit, so they can get credit for it.
+                </li>
+                <li><code>disassociate</code> Disassociates the user from the next deposit, in case they accidentally
+                    pressed the associate button or changed their mind.</li>
             </ul>
         </section>
     </main>
