@@ -26,6 +26,7 @@
     min-height: 18rem;
     max-height: 26rem;
     overflow-y: auto;
+    max-width: 935px;
     padding: 1rem;
     border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
     background: color-mix(in srgb, var(--foreground) 4%, transparent);
