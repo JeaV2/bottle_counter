@@ -9,8 +9,29 @@ declare(strict_types=1);
  * php -S 0.0.0.0:8071 proxy.php
 */
 
-const SHARED_SECRET = 'replace_with_long_random_secret';
+// Get environment variable for shared secret, or use a default for testing.
+$envFile = __DIR__ . '/.env';
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos($line, '=') !== false && strpos($line, '#') !== 0) {
+            putenv(trim($line));
+        }
+    }
+} else {
+    http_response_code(500);
+    echo json_encode(['ok' => false, 'error' => 'Proxy misconfigured: .env file not found']);
+    exit;
+}
+
 const SCHOOL_ENDPOINT = 'https://102710.stu.sd-lab.nl/api/deposit/';
+
+$sharedSecret = getenv('SHARED_SECRET') ?: '';
+if ($sharedSecret === '') {
+    http_response_code(500);
+    echo json_encode(['ok' => false, 'error' => 'Proxy misconfigured: SHARED_SECRET missing in .env']);
+    exit;
+}
 
 header('Content-Type: application/json');
 
@@ -28,9 +49,13 @@ if ($path !== '/api/deposit-proxy') {
 }
 
 $providedSecret = $_SERVER['HTTP_X_PROXY_SECRET'] ?? '';
-if (!hash_equals(SHARED_SECRET, $providedSecret)) {
+if (!hash_equals($sharedSecret, $providedSecret)) {
     http_response_code(401);
     echo json_encode(['ok' => false, 'error' => 'invalid_shared_secret']);
+    var_dump([
+        'provided' => $providedSecret,
+        'expected' => $sharedSecret,
+    ]);
     exit;
 }
 
