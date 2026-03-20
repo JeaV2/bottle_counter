@@ -28,14 +28,20 @@ void sendCommand(const char* command, unsigned long timeout) {
 }
 
 void sendPostRequest() {
-  String postData = TOKEN;
-  String httpRequest = "POST /api/deposit HTTP/1.1\r\n";
-  httpRequest += "Host: 102710.stu.sd-lab.nl\r\n";
+  String postData = "device_id=" + String(DEVICE_ID);
+  postData += "&event=bottle_detected";
+  postData += "&sent_at=" + String(millis());
+
+  String httpRequest = "POST " + String(PROXY_PATH) + " HTTP/1.1\r\n";
+  httpRequest += "Host: " + String(PROXY_HOST) + "\r\n";
+  httpRequest += "X-Proxy-Secret: " + String(TOKEN) + "\r\n";
   httpRequest += "Content-Type: application/x-www-form-urlencoded\r\n";
+  httpRequest += "Connection: close\r\n";
   httpRequest += "Content-Length: " + String(postData.length()) + "\r\n\r\n";
   httpRequest += postData;
 
-  sendCommand("AT+CIPSTART=\"TCP\",\"102710.stu.sd-lab.nl\",443", 5000);
+  String cipStartCmd = "AT+CIPSTART=\"TCP\",\"" + String(PROXY_HOST) + "\"," + String(PROXY_PORT);
+  sendCommand(cipStartCmd.c_str(), 5000);
   String cipSendCmd = "AT+CIPSEND=" + String(httpRequest.length());
   sendCommand(cipSendCmd.c_str(), 2000);
   sendCommand(httpRequest.c_str(), 5000);
