@@ -3,6 +3,14 @@ const terminalInput = document.getElementById("terminalInput");
 const terminalOutput = document.getElementById("terminalOutput");
 
 if (terminalForm && terminalInput && terminalOutput) {
+    const scrollOutputToBottom = () => {
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    };
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(scrollOutputToBottom);
+    });
+
     terminalForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -89,5 +97,6 @@ if (terminalForm && terminalInput && terminalOutput) {
         }
 
         terminalInput.value = "";
+        scrollOutputToBottom();
     });
 }
