@@ -1,5 +1,32 @@
 # Server specifications
 
+## Local proxy (Arduino -> home server -> school server)
+
+Use this when the Arduino cannot make a TLS connection directly.
+
+### Endpoint
+
+- POST /api/deposit-proxy
+- Listens on port 8071
+- Requires header: X-Proxy-Secret
+- Accepts body: application/x-www-form-urlencoded
+
+### Run
+
+From the proxy folder:
+
+php -S 0.0.0.0:8071 proxy.php
+
+### Request format from Arduino
+
+- device_id
+- event
+- sent_at
+
+The proxy validates X-Proxy-Secret, converts form data into JSON, then forwards it to:
+
+https://102710.stu.sd-lab.nl/api/deposit/
+
 # Endpoints
 
 ## Arduino endpoint
