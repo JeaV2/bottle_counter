@@ -1,5 +1,6 @@
 // Arduino Ultrasonic Sensor Tutorial
 // ©2019 The Geek Pub. Freely distributable with attribution
+// Modified by JeaV2 and TigoV2 to connect to wifi and send data to a proxy server for our Bottle Counter project.
 
 // Defines the sensor pins
 const int echoPin = 9;
