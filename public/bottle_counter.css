@@ -30,6 +30,27 @@
     padding: 1rem;
     border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
     background: color-mix(in srgb, var(--foreground) 4%, transparent);
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+.terminal-output::-webkit-scrollbar {
+    width: 10px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--foreground) 4%, transparent);
+    border-radius: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 8px;
+    border: 2px solid color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--accent) 80%, var(--background));
 }
 
 @media (max-width: 768px) {

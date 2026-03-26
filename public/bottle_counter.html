@@ -10,32 +10,32 @@
     <link rel="stylesheet" href="./bottle_counter.css">
     <script defer src="./bottle_counter.js"></script>
 </head>
-    <main class="app-shell">
-        <header class="app-header">
-            <h1>Bottle Counter</h1>
-        </header>
+<main class="app-shell">
+    <header class="app-header">
+        <h1>Bottle Counter</h1>
+    </header>
 
-        <section aria-labelledby="terminal-title">
-            <fieldset class="terminal-panel">
-                <legend id="terminal-title">Terminal Session</legend>
+    <section aria-labelledby="terminal-title">
+        <fieldset class="terminal-panel">
+            <legend id="terminal-title">Terminal Session</legend>
 
-                <div id="terminalOutput" class="terminal-output" aria-live="polite">
-                    <p>&gt; Bottle Counter terminal initialized.</p>
-                    <p>&gt; Type <code>help</code> to list commands.</p>
-                    <p>&gt; Session status: guest</p>
+            <div id="terminalOutput" class="terminal-output" aria-live="polite">
+                <p>&gt; Bottle Counter terminal initialized.</p>
+                <p>&gt; Type <code>help</code> to list commands.</p>
+                <p>&gt; Session status: guest</p>
+            </div>
+
+            <form id="terminalForm" class="terminal-form">
+                <label for="terminalInput">Enter command</label>
+                <div class="terminal-entry">
+                    <span class="prompt" aria-hidden="true">user@bottle-counter:~$</span>
+                    <input id="terminalInput" name="command" type="text" placeholder="help"
+                        aria-label="Terminal command input">
                 </div>
-
-                <form id="terminalForm" class="terminal-form">
-                    <label for="terminalInput">Enter command</label>
-                    <div class="terminal-entry">
-                        <span class="prompt" aria-hidden="true">user@bottle-counter:~$</span>
-                        <input id="terminalInput" name="command" type="text" placeholder="help"
-                            aria-label="Terminal command input">
-                    </div>
-                    <button>Run command</button>
-                </form>
-            </fieldset>
-    </main>
+                <button>Run command</button>
+            </form>
+        </fieldset>
+</main>
 </body>
 
 </html>
