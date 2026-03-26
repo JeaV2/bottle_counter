@@ -46,6 +46,7 @@ if (terminalForm && terminalInput && terminalOutput) {
                     "Available commands:",
                     "- leaderboard: Display the leaderboard",
                     "- help: Show this help message",
+                    "- clear: Clear the terminal output",
                     "- login: Start an authenticated session.",
                     "- signup: Create a new account.",
                     "- logout: End the current session.",
@@ -62,7 +63,10 @@ if (terminalForm && terminalInput && terminalOutput) {
                 });
                 break;
             }
-
+            case "clear": {
+                terminalOutput.innerHTML = "";
+                break;
+            }
             case "login":
             case "signup":
             case "logout":
