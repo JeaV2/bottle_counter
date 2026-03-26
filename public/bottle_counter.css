@@ -23,10 +23,10 @@
 }
 
 .terminal-output {
-    min-height: 18rem;
-    max-height: 26rem;
-    overflow-y: auto;
+    min-height: 24rem;
+    max-height: 35rem;
     max-width: 935px;
+    overflow-y: auto;
     padding: 1rem;
     border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
     background: color-mix(in srgb, var(--foreground) 4%, transparent);
