@@ -1,5 +1,6 @@
 // Arduino Ultrasonic Sensor Tutorial
 // ©2019 The Geek Pub. Freely distributable with attribution
+// Modified by JeaV2 and TigoV2 to connect to wifi and send data to a proxy server for our Bottle Counter project.
 
 // Defines the sensor pins
 const int echoPin = 9;
@@ -12,11 +13,9 @@ int distance;
 
 // WiFi code
 #include <SoftwareSerial.h>
+#include "secrets.h"
 
 SoftwareSerial wifiSerial(2, 3);
-
-const char* WIFI_SSID = "AstralEnvoy";
-const char* WIFI_PASSWORD = "Palmstrand";
 
 void sendCommand(const char* command, unsigned long timeout) {
   wifiSerial.println(command);
@@ -27,6 +26,27 @@ void sendCommand(const char* command, unsigned long timeout) {
       Serial.write(c);
     }
   }
+}
+
+void sendPostRequest() {
+  String postData = "device_id=" + String(DEVICE_ID);
+  postData += "&event=bottle_detected";
+  postData += "&sent_at=" + String(millis());
+
+  String httpRequest = "POST " + String(PROXY_PATH) + " HTTP/1.1\r\n";
+  httpRequest += "Host: " + String(PROXY_HOST) + "\r\n";
+  httpRequest += "X-Proxy-Secret: " + String(TOKEN) + "\r\n";
+  httpRequest += "Content-Type: application/x-www-form-urlencoded\r\n";
+  httpRequest += "Connection: close\r\n";
+  httpRequest += "Content-Length: " + String(postData.length()) + "\r\n\r\n";
+  httpRequest += postData;
+
+  String cipStartCmd = "AT+CIPSTART=\"TCP\",\"" + String(PROXY_HOST) + "\"," + String(PROXY_PORT);
+  sendCommand(cipStartCmd.c_str(), 5000);
+  String cipSendCmd = "AT+CIPSEND=" + String(httpRequest.length());
+  sendCommand(cipSendCmd.c_str(), 2000);
+  sendCommand(httpRequest.c_str(), 5000);
+
 }
 
 void connectToWiFi() {
@@ -81,6 +101,7 @@ void loop() {
 
   if (distance < 10) {
     Serial.println("Bottle detected!");
+    sendPostRequest();
   }
   // else {
   // 	Serial.println("No bottle detected.");

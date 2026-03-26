@@ -32,6 +32,12 @@
     background: color-mix(in srgb, var(--foreground) 4%, transparent);
 }
 
+@media (max-width: 768px) {
+    .terminal-output {
+        height: 24rem;
+    }
+}
+
 .terminal-output p {
     margin: 0 0 0.65rem;
 }
