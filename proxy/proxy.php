@@ -52,10 +52,6 @@ $providedSecret = $_SERVER['HTTP_X_PROXY_SECRET'] ?? '';
 if (!hash_equals($sharedSecret, $providedSecret)) {
     http_response_code(401);
     echo json_encode(['ok' => false, 'error' => 'invalid_shared_secret']);
-    var_dump([
-        'provided' => $providedSecret,
-        'expected' => $sharedSecret,
-    ]);
     exit;
 }
 
