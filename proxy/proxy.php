@@ -24,7 +24,7 @@ if (file_exists($envFile)) {
     exit;
 }
 
-const SCHOOL_ENDPOINT = 'https://102710.stu.sd-lab.nl/api/deposit/';
+$SCHOOL_ENDPOINT = getenv('FORWARD_URL');
 
 $sharedSecret = getenv('SHARED_SECRET') ?: '';
 if ($sharedSecret === '') {
@@ -67,7 +67,7 @@ $forwardPayload = [
     'sent_at' => $formData['sent_at'] ?? gmdate(DATE_ATOM),
 ];
 
-$ch = curl_init(SCHOOL_ENDPOINT);
+$ch = curl_init($SCHOOL_ENDPOINT);
 if ($ch === false) {
     http_response_code(500);
     echo json_encode(['ok' => false, 'error' => 'curl_init_failed']);
@@ -114,7 +114,7 @@ if ($curlErrNo !== 0) {
 http_response_code($statusCode > 0 ? $statusCode : 200);
 echo json_encode([
     'ok' => $statusCode >= 200 && $statusCode < 300,
-    'forwarded_to' => SCHOOL_ENDPOINT,
+    'forwarded_to' => $SCHOOL_ENDPOINT,
     'status_code' => $statusCode,
     'school_response' => $responseBody,
 ]);
