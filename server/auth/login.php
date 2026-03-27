@@ -3,13 +3,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require __DIR__ . '/../cinfo/env.php';
+
 require "../cinfo/config.php";
 require "../vendor/autoload.php";
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-$secretKey = "your_secret_key"; // Still needs a key!!!
+$secretKey = $_ENV['JWT_SECRET'];
 
 function sanitizeInput($input) {
     return trim(htmlspecialchars(strip_tags($input), ENT_QUOTES, 'UTF-8'));
@@ -33,8 +35,6 @@ function getUserByEmail($pdo, $email) {
 
 function generateToken($user, $secretKey) {
     $payload = [
-        'iss' => 'your_domain.com', // Issuer (requires backend putin)
-        'aud' => 'your_domain.com', // Audience (requires frontend putin)
         'iat' => time(),
         'exp' => time() + (10080 * 60),
         'user_id' => $user['user_id'],
