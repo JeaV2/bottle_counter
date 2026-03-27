@@ -3,6 +3,8 @@ const terminalInput = document.getElementById("terminalInput");
 const terminalOutput = document.getElementById("terminalOutput");
 
 if (terminalForm && terminalInput && terminalOutput) {
+    const initialTerminalLineCount = terminalOutput.childElementCount;
+
     const scrollOutputToBottom = () => {
         terminalOutput.scrollTop = terminalOutput.scrollHeight;
     };
@@ -64,7 +66,9 @@ if (terminalForm && terminalInput && terminalOutput) {
                 break;
             }
             case "clear": {
-                terminalOutput.innerHTML = "";
+                while (terminalOutput.childElementCount > initialTerminalLineCount) {
+                    terminalOutput.removeChild(terminalOutput.lastElementChild);
+                }
                 break;
             }
             case "login":
@@ -80,9 +84,13 @@ if (terminalForm && terminalInput && terminalOutput) {
             }
 
             case "count": {
-                const line = document.createElement("p");
-                line.textContent = "Total bottles deposited: 1050";
-                terminalOutput.appendChild(line);
+                fetch("https://102710.stu.sd-lab.nl/bottle_counter/api/count/")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const line = document.createElement("p");
+                        line.textContent = `Total bottles deposited: ${data.count}`;
+                        terminalOutput.appendChild(line);
+                    });
                 break;
             }
 
