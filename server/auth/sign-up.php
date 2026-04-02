@@ -23,6 +23,7 @@ function sanitizeInput(string $input): string
 function validateInput(array $data): array
 {
     $errors = [];
+    $allowedDomains = ['glr.nl'];
 
     if ($data['username'] === '' || $data['password'] === '') {
         $errors[] = "username en wachtwoord zijn verplicht!";
@@ -32,6 +33,9 @@ function validateInput(array $data): array
         $errors[] = "Geen e-mailadres ingevoerd!";
     } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Ongeldig e-mailadres!";
+    }
+    elseif (!in_array(explode('@', $data['email'])[1], $allowedDomains)) {
+        $errors[] = "E-mailadres moet eindigen op @glr.nl!";
     }
 
     return ['errors' => $errors, 'data' => $data];
