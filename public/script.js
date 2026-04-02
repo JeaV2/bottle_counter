@@ -1,6 +1,68 @@
 const terminalForm = document.getElementById("terminalForm");
 const terminalInput = document.getElementById("terminalInput");
 const terminalOutput = document.getElementById("terminalOutput");
+const loginModal = document.getElementById("loginModal");
+const loginForm = document.getElementById("loginForm");
+const loginCancel = document.getElementById("loginCancel");
+const loginUsername = document.getElementById("loginUsername");
+
+const addTerminalLine = (text) => {
+    if (!terminalOutput) {
+        return;
+    }
+
+    const line = document.createElement("p");
+    line.textContent = text;
+    terminalOutput.appendChild(line);
+};
+
+const setLoginModalVisible = (isVisible) => {
+    if (!loginModal) {
+        return;
+    }
+
+    loginModal.setAttribute("aria-hidden", String(!isVisible));
+
+    if (isVisible) {
+        requestAnimationFrame(() => {
+            if (loginUsername instanceof HTMLInputElement) {
+                loginUsername.focus();
+            }
+        });
+    }
+};
+
+const isLoginModalVisible = () => loginModal?.getAttribute("aria-hidden") === "false";
+
+if (loginForm) {
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const username = loginForm.username.value.trim() || "user";
+        addTerminalLine(`Login requested for: ${username}`);
+        setLoginModalVisible(false);
+    });
+}
+
+if (loginCancel) {
+    loginCancel.addEventListener("click", () => {
+        setLoginModalVisible(false);
+    });
+}
+
+if (loginModal) {
+    loginModal.addEventListener("click", (event) => {
+        if (event.target === loginModal) {
+            setLoginModalVisible(false);
+        }
+    });
+}
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && isLoginModalVisible()) {
+        setLoginModalVisible(false);
+    }
+});
 
 if (terminalForm && terminalInput && terminalOutput) {
     const initialTerminalLineCount = terminalOutput.childElementCount;
@@ -71,7 +133,6 @@ if (terminalForm && terminalInput && terminalOutput) {
                 }
                 break;
             }
-            case "login":
             case "signup":
             case "logout":
             case "predict":
@@ -80,6 +141,12 @@ if (terminalForm && terminalInput && terminalOutput) {
                 const line = document.createElement("p");
                 line.textContent = `${command[0].toUpperCase() + command.slice(1)} functionality is not implemented yet.`;
                 terminalOutput.appendChild(line);
+                break;
+            }
+
+            case "login": {
+                setLoginModalVisible(true);
+                addTerminalLine("Opening login popup...");
                 break;
             }
 

@@ -35,6 +35,24 @@
                 <button>Run command</button>
             </form>
         </fieldset>
+
+        <div id="loginModal" class="modal" aria-hidden="true">
+            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+                <h2 id="loginModalTitle">Login</h2>
+                <form id="loginForm" class="modal-form" autocomplete="on">
+                    <label for="loginUsername">Username</label>
+                    <input id="loginUsername" name="username" type="text" required>
+
+                    <label for="loginPassword">Password</label>
+                    <input id="loginPassword" name="password" type="password" required>
+
+                    <div class="modal-actions">
+                        <button type="submit">Login</button>
+                        <button type="button" id="loginCancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </main>
 </body>
 
