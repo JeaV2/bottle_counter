@@ -84,13 +84,18 @@ if (terminalForm && terminalInput && terminalOutput) {
             }
 
             case "count": {
-                fetch("https://102710.stu.sd-lab.nl/bottle_counter/api/count/")
-                    .then((response) => response.json())
-                    .then((data) => {
-                        const line = document.createElement("p");
-                        line.textContent = `Total bottles deposited: ${data.count}`;
-                        terminalOutput.appendChild(line);
-                    });
+                getCount().then((count) => {
+                    const line = document.createElement("p");
+                    line.textContent = `Total bottles deposited: ${count}`;
+                    terminalOutput.appendChild(line);
+                    scrollOutputToBottom();
+                }).catch((error) => {
+                    const line = document.createElement("p");
+                    line.textContent = `Error fetching count: ${error.message}`;
+                    terminalOutput.appendChild(line);
+                    scrollOutputToBottom();
+                });
+
                 break;
             }
 
@@ -111,4 +116,14 @@ if (terminalForm && terminalInput && terminalOutput) {
         terminalInput.value = "";
         scrollOutputToBottom();
     });
+}
+
+async function getCount(params) {
+    const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/api/count/");
+    if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+    }
+    const count = await response.json();
+    console.log("Count response:", count);
+    return count[0].bottleCount;
 }
