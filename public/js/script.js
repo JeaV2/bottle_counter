@@ -281,6 +281,7 @@ async function signup() {
     addTerminalLine(`Signup requested for: ${username}`);
     setSignupModalVisible(false);
     const password = signupForm.password.value.trim() || "password";
+    const email = signupForm.email.value.trim() || "user@example.com";
 
     try {
         const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/signup.php", {
@@ -290,6 +291,7 @@ async function signup() {
             },
             body: new URLSearchParams({
                 username: username,
+                email: email,
                 password: password
             })
         });
