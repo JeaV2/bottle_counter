@@ -56,7 +56,7 @@ function handleLogin($pdo, $secretKey) {
             $user = getUserByUsername($pdo, $username);
             if ($user && password_verify($password, $user['password'])) {
                 $token = generateToken($user, $secretKey);
-                sendJsonResponse(['token' => $token]);
+                sendJsonResponse(['token' => $token, 'user_id' => $user['user_id'], 'username' => $user['username']]);
             } else {
                 $error = "Username or Password doesn't match!";
             }
@@ -64,7 +64,7 @@ function handleLogin($pdo, $secretKey) {
             $user = getUserByEmail($pdo, $email);
             if ($user && password_verify($password, $user['password'])) {
                 $token = generateToken($user, $secretKey);
-                sendJsonResponse(['token' => $token]);
+                sendJsonResponse(['token' => $token, 'user_id' => $user['user_id'], 'username' => $user['username']]);
             } else {
                 $error = "Email or Password doesn't match!";
             }

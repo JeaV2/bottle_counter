@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (is_int($result)) {
             $token = generateJWT($result, $input['username'], $secretKey);
             header ('Content-Type: application/json');
-            echo json_encode(['token' => $token]);
+            echo json_encode(['token' => $token, 'user_id' => $result, 'username' => $input['username']]);
             exit;
         } else {
             header("Content-Type: application/json", true, 400);
