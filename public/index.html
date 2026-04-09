@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bottle Counter</title>
     <link rel="icon" type="image/x-icon" href="./media/bottle-cap-svgrepo-com.svg">
-    <link rel="stylesheet" href="./terminal.css">
-    <link rel="stylesheet" href="./style.css">
-    <script defer src="./script.js"></script>
+    <link rel="stylesheet" href="./css/terminal.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script defer src="./js/script.js"></script>
 </head>
 <main class="app-shell">
     <header class="app-header">
@@ -49,6 +49,27 @@
                     <div class="modal-actions">
                         <button type="submit" id="loginSubmit" onclick="login()">Login</button>
                         <button type="button" id="loginCancel">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="signupModal" class="modal" aria-hidden="true">
+            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="signupModalTitle">
+                <h2 id="signupModalTitle">Sign Up</h2>
+                <form id="signupForm" class="modal-form" autocomplete="on">
+                    <label for="signupUsername">Username</label>
+                    <input id="signupUsername" name="username" type="text" required>
+
+                    <label for="signupEmail">Email</label>
+                    <input id="signupEmail" name="email" type="email" required>
+
+                    <label for="signupPassword">Password</label>
+                    <input id="signupPassword" name="password" type="password" required>
+
+                    <div class="modal-actions">
+                        <button type="submit" id="signupSubmit" onclick="signup()">Sign Up</button>
+                        <button type="button" id="signupCancel">Cancel</button>
                     </div>
                 </form>
             </div>

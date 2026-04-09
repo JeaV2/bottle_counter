@@ -5,6 +5,10 @@ const loginModal = document.getElementById("loginModal");
 const loginForm = document.getElementById("loginForm");
 const loginCancel = document.getElementById("loginCancel");
 const loginUsername = document.getElementById("loginUsername");
+const signupModal = document.getElementById("signupModal");
+const signupForm = document.getElementById("signupForm");
+const signupCancel = document.getElementById("signupCancel");
+const signupUsername = document.getElementById("signupUsername");
 
 const addTerminalLine = (text) => {
     if (!terminalOutput) {
@@ -19,6 +23,46 @@ const addTerminalLine = (text) => {
 if (localStorage.getItem("authToken")) {
     addTerminalLine("Existing session detected. You are already logged in.");
     let token = localStorage.getItem("authToken");
+}
+
+const setSignupModalVisible = (isVisible) => {
+    if (!signupModal) {
+        return;
+    }
+
+    signupModal.setAttribute("aria-hidden", String(!isVisible));
+
+    if (isVisible) {
+        requestAnimationFrame(() => {
+            if (signupUsername instanceof HTMLInputElement) {
+                signupUsername.focus();
+            }
+        });
+    }
+};
+
+const isSignupModalVisible = () => signupModal?.getAttribute("aria-hidden") === "false";
+
+if (signupForm) {
+    signupForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const username = signupForm.username.value.trim();
+        addTerminalLine(`Signup requested for: ${username}`);
+        setSignupModalVisible(false);
+    });
+}
+if (signupCancel) {
+    signupCancel.addEventListener("click", () => {
+        setSignupModalVisible(false);
+    });
+}
+
+if (signupModal) {
+    signupModal.addEventListener("click", (event) => {
+        if (event.target === signupModal) {
+            setSignupModalVisible(false);
+        }
+    });
 }
 
 const setLoginModalVisible = (isVisible) => {
@@ -61,12 +105,6 @@ if (loginModal) {
         }
     });
 }
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && isLoginModalVisible()) {
-        setLoginModalVisible(false);
-    }
-});
 
 if (terminalForm && terminalInput && terminalOutput) {
     const initialTerminalLineCount = terminalOutput.childElementCount;
@@ -137,7 +175,12 @@ if (terminalForm && terminalInput && terminalOutput) {
                 }
                 break;
             }
-            case "signup":
+            case "signup": {
+                setSignupModalVisible(true);
+                addTerminalLine("Opening signup popup...");
+                break;
+            }
+
             case "logout":
             case "predict":
             case "associate":
@@ -199,9 +242,9 @@ async function getCount(params) {
     return count[0].bottleCount;
 }
 
-async function login(){
+async function login() {
     event.preventDefault();
-    
+
     const username = loginForm.username.value.trim() || "user";
     addTerminalLine(`Login requested for: ${username}`);
     setLoginModalVisible(false);
@@ -228,5 +271,35 @@ async function login(){
     } catch (error) {
         console.error("Login error:", error);
         addTerminalLine(`Login error: ${error.message}`);
+    }
+}
+
+async function signup() {
+    event.preventDefault();
+
+    const username = signupForm.username.value.trim() || "user";
+    addTerminalLine(`Signup requested for: ${username}`);
+    setSignupModalVisible(false);
+    const password = signupForm.password.value.trim() || "password";
+
+    try {
+        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/signup.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Signup failed: ${response.status}`);
+        }
+        const data = await response.json();
+        addTerminalLine(`Signup successful! You can now log in with your new account, ${username}.`);
+    } catch (error) {
+        console.error("Signup error:", error);
+        addTerminalLine(`Signup error: ${error.message}`);
     }
 }
