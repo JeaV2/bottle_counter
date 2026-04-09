@@ -16,6 +16,11 @@ const addTerminalLine = (text) => {
     terminalOutput.appendChild(line);
 };
 
+if (localStorage.getItem("authToken")) {
+    addTerminalLine("Existing session detected. You are already logged in.");
+    let token = localStorage.getItem("authToken");
+}
+
 const setLoginModalVisible = (isVisible) => {
     if (!loginModal) {
         return;
@@ -37,8 +42,7 @@ const isLoginModalVisible = () => loginModal?.getAttribute("aria-hidden") === "f
 if (loginForm) {
     loginForm.addEventListener("submit", (event) => {
         event.preventDefault();
-
-        const username = loginForm.username.value.trim() || "user";
+        const username = loginForm.username.value.trim();
         addTerminalLine(`Login requested for: ${username}`);
         setLoginModalVisible(false);
     });
@@ -193,4 +197,36 @@ async function getCount(params) {
     const count = await response.json();
     console.log("Count response:", count);
     return count[0].bottleCount;
+}
+
+async function login(){
+    event.preventDefault();
+    
+    const username = loginForm.username.value.trim() || "user";
+    addTerminalLine(`Login requested for: ${username}`);
+    setLoginModalVisible(false);
+    const password = loginForm.password.value.trim() || "password";
+
+    try {
+        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/login.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Login failed: ${response.status}`);
+        }
+        const data = await response.json();
+        token = data.token;
+        localStorage.setItem("authToken", token);
+        addTerminalLine(`Login successful! Welcome, ${username}.`);
+    } catch (error) {
+        console.error("Login error:", error);
+        addTerminalLine(`Login error: ${error.message}`);
+    }
 }
