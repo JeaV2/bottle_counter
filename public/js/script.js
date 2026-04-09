@@ -262,6 +262,8 @@ async function login() {
             })
         });
         if (!response.ok) {
+            const errorData = await response.json();
+            addTerminalLine(`Login failed: ${errorData.error}`);
             throw new Error(`Login failed: ${response.status}`);
         }
         const data = await response.json();
@@ -270,7 +272,6 @@ async function login() {
         addTerminalLine(`Login successful! Welcome, ${username}.`);
     } catch (error) {
         console.error("Login error:", error);
-        addTerminalLine(`Login error: ${error.message}`);
     }
 }
 
@@ -280,11 +281,11 @@ async function signup() {
     const username = signupForm.username.value.trim() || "user";
     addTerminalLine(`Signup requested for: ${username}`);
     setSignupModalVisible(false);
-    const password = signupForm.password.value.trim() || "password";
     const email = signupForm.email.value.trim() || "user@example.com";
+    const password = signupForm.password.value.trim() || "password";
 
     try {
-        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/signup.php", {
+        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/sign-up.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -296,12 +297,13 @@ async function signup() {
             })
         });
         if (!response.ok) {
+            const errorData = await response.json();
+            addTerminalLine(`Signup failed: ${errorData.error}`);
             throw new Error(`Signup failed: ${response.status}`);
         }
         const data = await response.json();
         addTerminalLine(`Signup successful! You can now log in with your new account, ${username}.`);
     } catch (error) {
         console.error("Signup error:", error);
-        addTerminalLine(`Signup error: ${error.message}`);
     }
 }

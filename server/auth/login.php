@@ -74,6 +74,7 @@ function handleLogin($pdo, $secretKey) {
     }
 
     if (!empty($error)) {
+        http_response_code(400);
         sendJsonResponse(['error' => $error]);
     }
 }
