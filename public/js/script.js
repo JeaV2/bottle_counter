@@ -268,7 +268,11 @@ async function login() {
         }
         const data = await response.json();
         token = data.token;
+        usernameData = data.username;
+        user_id = data.user_id;
         localStorage.setItem("authToken", token);
+        localStorage.setItem("username", usernameData);
+        localStorage.setItem("user_id", user_id);
         addTerminalLine(`Login successful! Welcome, ${username}.`);
     } catch (error) {
         console.error("Login error:", error);
@@ -302,6 +306,12 @@ async function signup() {
             throw new Error(`Signup failed: ${response.status}`);
         }
         const data = await response.json();
+        token = data.token;
+        usernameData = data.username;
+        user_id = data.user_id;
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("username", usernameData);
+        localStorage.setItem("user_id", user_id);
         addTerminalLine(`Signup successful! You can now log in with your new account, ${username}.`);
     } catch (error) {
         console.error("Signup error:", error);
