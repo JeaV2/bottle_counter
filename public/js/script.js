@@ -251,7 +251,7 @@ async function login() {
     const password = loginForm.password.value.trim() || "password";
 
     try {
-        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/login.php", {
+        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/login/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
@@ -289,7 +289,7 @@ async function signup() {
     const password = signupForm.password.value.trim() || "password";
 
     try {
-        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/sign-up.php", {
+        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/auth/sign-up/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
