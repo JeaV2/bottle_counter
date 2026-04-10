@@ -183,7 +183,31 @@ if (terminalForm && terminalInput && terminalOutput) {
 
             case "logout":
             case "predict":
-            case "associate":
+            case "associate": {
+                async function associate() {
+                    try {
+                        const response = await fetch("https://102710.stu.sd-lab.nl/bottle_counter/api/associate/", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json","Authorization": `Token ${localStorage.getItem("authToken")}`
+                            },
+                            body: JSON.stringify({ token: localStorage.getItem("authToken") })
+                        });
+
+                         console.log("Associate response:", response);
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            addTerminalLine(`Associate failed: ${errorData.error}`);
+                            throw new Error(`Associate failed: ${response.status}`);
+                        }
+                    } catch (error) {
+                        console.error("Associate error:", error);
+                    }
+                }
+            associate();
+            break;
+            }
+
             case "disassociate": {
                 const line = document.createElement("p");
                 line.textContent = `${command[0].toUpperCase() + command.slice(1)} functionality is not implemented yet.`;
