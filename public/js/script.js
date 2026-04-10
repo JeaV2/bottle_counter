@@ -318,12 +318,7 @@ async function signup() {
     }
 }
 
-function capitalizeFirstLetter(string) {
-    if (!string) {
-        return string;
-    }
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 async function showSessionStatus() {
     const sessionStatusElement = document.getElementById("sessionStatus");
