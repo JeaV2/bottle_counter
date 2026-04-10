@@ -337,3 +337,21 @@ async function showSessionStatus() {
 }
 
 showSessionStatus();
+
+async function showSessionStatusBar() {
+    const sessionStatusBarElement = document.getElementById("sessionStatusBar");
+    if (!sessionStatusBarElement) {
+        return;
+    }
+
+    const token = localStorage.getItem("authToken");
+    const username = localStorage.getItem("username");
+
+    if (token && username) {
+        sessionStatusBarElement.textContent = `${username}`;
+    } else {
+        sessionStatusBarElement.textContent = "user";
+    }
+}
+
+showSessionStatusBar();
