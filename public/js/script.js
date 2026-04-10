@@ -317,3 +317,28 @@ async function signup() {
         console.error("Signup error:", error);
     }
 }
+
+function capitalizeFirstLetter(string) {
+    if (!string) {
+        return string;
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+async function showSessionStatus() {
+    const sessionStatusElement = document.getElementById("sessionStatus");
+    if (!sessionStatusElement) {
+        return;
+    }
+
+    const token = localStorage.getItem("authToken");
+    const username = localStorage.getItem("username");
+
+    if (token && username) {
+        sessionStatusElement.textContent = `${capitalizeFirstLetter(username)}`;
+    } else {
+        sessionStatusElement.textContent = "Guest";
+    }
+}
+
+showSessionStatus();
