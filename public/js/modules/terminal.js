@@ -1,4 +1,4 @@
-import { associateNextDeposit, getCount } from "./api.js";
+import { getCount, associateNextDeposit, disassociateNextDeposit, leaderboardRequest, statsRequest } from "./api.js";
 
 export function initTerminal({ openLoginModal, openSignupModal, logout, addTerminalLine }) {
     const terminalForm = document.getElementById("terminalForm");
