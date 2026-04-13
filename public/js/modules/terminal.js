@@ -36,17 +36,6 @@ export function initTerminal({ openLoginModal, openSignupModal, logout, addTermi
         appendLine(`> ${command}`);
 
         switch (command) {
-            case "leaderboard": {
-                const leaderboard = [
-                    "1st peter - 500 Bottles",
-                    "2nd john - 300 Bottles",
-                    "3rd mary - 200 Bottles",
-                    "4th Alice - 100 Bottles",
-                    "5th bob - 50 Bottles"
-                ];
-                leaderboard.forEach(appendLine);
-                break;
-            }
             case "help": {
                 const helpText = [
                     "Available commands:",
@@ -58,11 +47,24 @@ export function initTerminal({ openLoginModal, openSignupModal, logout, addTermi
                     "- logout: End the current session.",
                     "- count: Shows the total amount of bottles deposited by all users.",
                     "- stats: Show personal bottle totals, streak, and rank.",
-                    "- predict: Allows users to predict how many bottles will be deposited the following day.",
                     "- associate: Associates the user with the next deposit, so they can get credit for it.",
                     "- disassociate: Disassociates the user from the next deposit, in case they accidentally pressed the associate button or changed their mind."
                 ];
                 helpText.forEach(appendLine);
+                break;
+            }
+            case "leaderboard": {
+                try {
+                    const leaderboard = await leaderboardRequest();
+                    appendLine("Leaderboard:");
+                    let index = 0;
+                    leaderboard.forEach(() => {
+                        appendLine(`${leaderboard[index].username}: ${leaderboard[index].bottles} bottles`);
+                        index++;
+                    });
+                } catch (error) {
+                    appendLine(`Error fetching leaderboard: ${error.message}`);
+                }
                 break;
             }
             case "clear": {
@@ -85,8 +87,7 @@ export function initTerminal({ openLoginModal, openSignupModal, logout, addTermi
                 logout();
                 break;
             }
-            case "associate":
-            case "predict": {
+            case "associate": {
                 const token = localStorage.getItem("authToken");
                 if (!token) {
                     addTerminalLine("Please log in first.");
@@ -102,7 +103,18 @@ export function initTerminal({ openLoginModal, openSignupModal, logout, addTermi
                 break;
             }
             case "disassociate": {
-                appendLine(`${command[0].toUpperCase() + command.slice(1)} functionality is not implemented yet.`);
+                const token = localStorage.getItem("authToken");
+                if (!token) {
+                    addTerminalLine("Please log in first.");
+                    break;
+                }
+
+                try {
+                    await disassociateNextDeposit(token);
+                    addTerminalLine("Disassociation request submitted.");
+                } catch (error) {
+                    addTerminalLine(`Disassociate failed: ${error.message}`);
+                }
                 break;
             }
             case "count": {
@@ -115,7 +127,21 @@ export function initTerminal({ openLoginModal, openSignupModal, logout, addTermi
                 break;
             }
             case "stats": {
-                appendLine("Your stats: 150 bottles, 5-day streak, Rank: 2nd");
+                const token = localStorage.getItem("authToken");
+                if (!token) {
+                    addTerminalLine("Please log in first.");
+                    break;
+                }
+            
+                try {
+                    const stats = await statsRequest(token);
+                    appendLine(`Your stats:`);
+                    appendLine(`- Total bottles deposited: ${stats.bottles}`);
+                    appendLine(`- Streak counting will be added in a future update!`);
+                    appendLine(`- Ranks will be added in a future update!`);
+                } catch (error) {
+                    appendLine(`Error fetching stats: ${error.message}`);
+                }
                 break;
             }
             default: {

@@ -59,3 +59,45 @@ export async function associateNextDeposit(token) {
         throw new Error(errorData.error || `Associate failed: ${response.status}`);
     }
 }
+
+export async function disassociateNextDeposit(token) {
+    const response = await fetch(`${BASE_URL}/api/disassociate/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`
+        },
+        body: JSON.stringify({ token })
+    });
+    
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Disassociate failed: ${response.status}`);
+    }
+}
+
+export async function leaderboardRequest() {
+    const response = await fetch(`${BASE_URL}/api/leaderboard/`);
+    if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+    }
+
+    const leaderboard = await response.json();
+    return leaderboard[0];
+}
+
+export async function statsRequest(token) {
+    const response = await fetch(`${BASE_URL}/api/stats/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`
+        },
+    });
+    if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+    }
+
+    const stats = await response.json();
+    return stats;
+}
