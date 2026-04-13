@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="./media/bottle-cap-svgrepo-com.svg">
     <link rel="stylesheet" href="./css/terminal.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script defer src="./js/script.js"></script>
+    <script type="module" defer src="./js/script.js"></script>
 </head>
 <main class="app-shell">
     <header class="app-header">
@@ -47,7 +47,7 @@
                     <input id="loginPassword" name="password" type="password" required>
 
                     <div class="modal-actions">
-                        <button type="submit" id="loginSubmit" onclick="login()">Login</button>
+                        <button type="submit" id="loginSubmit">Login</button>
                         <button type="button" id="loginCancel">Cancel</button>
                     </div>
                 </form>
@@ -68,7 +68,7 @@
                     <input id="signupPassword" name="password" type="password" required>
 
                     <div class="modal-actions">
-                        <button type="submit" id="signupSubmit" onclick="signup()">Sign Up</button>
+                        <button type="submit" id="signupSubmit">Sign Up</button>
                         <button type="button" id="signupCancel">Cancel</button>
                     </div>
                 </form>
